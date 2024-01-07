@@ -1,23 +1,38 @@
 import logo from './logo.svg';
 import './App.css';
+// import firebase from 'firebase/app';
+import firebase from './firebase';
+import 'firebase/auth'
+import SignUp from '../components/signup';
+import Login from '../components/Login';
+import Logout from '../components/Logout';
+import { useEffect, useState } from 'react';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged((authUser) => {
+      setUser(authUser)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Your Task Manager App</h1>
+      {user ? (
+        <>
+          <p>Welcome, {user.email}!</p>
+          <Logout />
+        </>
+      ) : (
+        <>
+          <SignUp />
+          <Login />
+        </>
+      )}
     </div>
   );
 }

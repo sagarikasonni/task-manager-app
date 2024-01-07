@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-// import firebase  from '../src/firebase/app'
-import firebase  from 'firebase/app'
+import firebase from '../src/firebase'
 import 'firebase/auth'
 
 // needs to be upper case
